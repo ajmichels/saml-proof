@@ -1,6 +1,7 @@
+#!/usr/bin/env php
 <?php
 
-require './vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $idpString = 'https://auth.staging.caringbridge.org';
 $spString = 'https://hmki_sso_nonprod.hallmarkinsights.com';
@@ -11,12 +12,12 @@ $siteId = '602c14c2e5d0149bb81cd146c2c626d1eddb28a9';
 $thirdPartyKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_1_5, [
     'type' => 'public',
 ]);
-$thirdPartyKey->loadKey(__DIR__ . '/example-tp.org.crt', true, true);
+$thirdPartyKey->loadKey(__DIR__ . '/../certs/example-tp.org.crt', true, true);
 $privateKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_1_5, [
     'type' => 'private',
 ]);
-$privateKey->loadKey(__DIR__ . '/example.org.pem', true);
-$certString = file_get_contents(__DIR__ . '/example.org.crt');
+$privateKey->loadKey(__DIR__ . '/../certs/example.org.pem', true);
+$certString = file_get_contents(__DIR__ . '/../certs/example.org.crt');
 
 \SAML2\Compat\ContainerSingleton::setContainer(new \SAML2\Compat\MockContainer());
 
