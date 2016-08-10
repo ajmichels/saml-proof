@@ -1,0 +1,12 @@
+{
+    "name": "amichels/xsaml",
+    "require": {
+        "simplesamlphp/saml2": "^2.2"
+    },
+    "authors": [
+        {
+            "name": "AJ Michels",
+            "email": "amichels@caringbridge.org"
+        }
+    ]
+}

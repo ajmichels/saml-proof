@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Response xmlns="urn:oasis:names:tc:SAML:2.0:protocol" Destination="https://test.hallmarkbusiness.com/PORTAL/SLN/PROGRAM/Common/Pages/Samlv20Receiver.aspx" ID="_9d1ee04754bd37f3eff1026e75938c7224ed" IssueInstant="2011-02-19T17:02:29Z" Version="2.0">
+  <ns1:Issuer xmlns:ns1="urn:oasis:names:tc:SAML:2.0:assertion" Format="urn:oasis:names:tc:SAML:2.0:nameid- format:entity">https://hmki_sso_nonprod.hallmarkbusiness.com <!-- IdP --> </ns1:Issuer>
+  <Status>
+    <StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/>
+  </Status>
+  <ns2:Assertion xmlns:ns2="urn:oasis:names:tc:SAML:2.0:assertion" ID="_4f8c9ef02295704874c2101128ed57488a74" IssueInstant="2011-02-19T17:02:29Z" Version="2.0">
+    <ns2:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">https://hmki_sso_nonprod.hallmarkbusiness.com</ns2:Issuer>
+    <ns2:Subject>
+      <ns2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+        <ns2:SubjectConfirmationData NotOnOrAfter="2021-02-19T17:08:19Z" Recipient=" https://test.hallmarkbusiness.com/PORTAL/SLN/PROGRAM/Common/Pages/Samlv20Receiver.aspx "/>
+      </ns2:SubjectConfirmation>
+    </ns2:Subject>
+    <ns2:Conditions NotBefore="2010-02-19T16:57:19Z" NotOnOrAfter="2021-02-19T17:08:19Z">
+      <ns2:AudienceRestriction>
+        <ns2:Audience>https://hmki_sso_nonprod.hallmarkinsights.com <!-- SP ID --> </ns2:Audience>
+      </ns2:AudienceRestriction>
+    </ns2:Conditions>
+    <ns2:AuthnStatement AuthnInstant="2010-02-19T17:02:18Z" SessionIndex="9+i2VZbrZjZFih7fdn8yoheZdc0=8OfBsQ==" SessionNotOnOrAfter="2011-02-19T17:08:19Z">
+      <ns2:AuthnContext>
+        <ns2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:Password</ns2:AuthnContextClassRef>
+      </ns2:AuthnContext>
+    </ns2:AuthnStatement>
+    <ns2:AttributeStatement>
+      <ns2:Attribute Name="User_Id" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+        <ns2:AttributeValue>user1234</ns2:AttributeValue>
+      </ns2:Attribute>
+    </ns2:AttributeStatement>
+  </ns2:Assertion>
+</Response>
