@@ -2,12 +2,17 @@
 
 require './vendor/autoload.php';
 
-$idpString = 'https://staging.caringbridge.org';
+$idpString = 'https://auth.staging.caringbridge.org';
 $spString = 'https://hmki_sso_nonprod.hallmarkinsights.com';
 $notBefore = \SAML2\Utilities\Temporal::getTime() - 30; // 30 seconds ago
 $notAfter = \SAML2\Utilities\Temporal::getTime() + 3600; // 1 hour from now
 $userId = 'f5a6f8bd142fc5631b1343b368fa16d21318115c';
 $siteId = '602c14c2e5d0149bb81cd146c2c626d1eddb28a9';
+$privateKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_1_5, [
+    'type' => 'private',
+]);
+$privateKey->loadKey(__DIR__ . '/example.org.pem', true);
+$certString = file_get_contents(__DIR__ . '/example.org.crt');
 
 \SAML2\Compat\ContainerSingleton::setContainer(new \SAML2\Compat\MockContainer());
 
@@ -34,10 +39,13 @@ $assertion->setNameId([
     'Format' => \SAML2\Constants::NAMEFORMAT_UNSPECIFIED,
 ]);
 $assertion->setSubjectConfirmation([$subject]);
-// $assertion->setAuthenticatingAuthority([...]);
-// $assertion->setSignatureKey(...);
-// $assertion->setEncryptionKey(...);
-// $assertion->setCertificates([...]);
+
+// Handle Encryption and Signing
+$assertion->encryptNameId($privateKey);
+$assertion->setSignatureKey($privateKey);
+$assertion->setEncryptionKey($privateKey);
+$assertion->setEncryptedAttributes(true);
+$assertion->setCertificates([$certString]);
 
 $response = new \SAML2\Response();
 $response->setDestination($spString);
