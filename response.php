@@ -8,6 +8,10 @@ $notBefore = \SAML2\Utilities\Temporal::getTime() - 30; // 30 seconds ago
 $notAfter = \SAML2\Utilities\Temporal::getTime() + 3600; // 1 hour from now
 $userId = 'f5a6f8bd142fc5631b1343b368fa16d21318115c';
 $siteId = '602c14c2e5d0149bb81cd146c2c626d1eddb28a9';
+$thirdPartyKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_1_5, [
+    'type' => 'public',
+]);
+$thirdPartyKey->loadKey(__DIR__ . '/example-tp.org.crt', true, true);
 $privateKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_1_5, [
     'type' => 'private',
 ]);
@@ -41,11 +45,11 @@ $assertion->setNameId([
 $assertion->setSubjectConfirmation([$subject]);
 
 // Handle Encryption and Signing
-$assertion->encryptNameId($privateKey);
-$assertion->setSignatureKey($privateKey);
-$assertion->setEncryptionKey($privateKey);
+$assertion->encryptNameId($thirdPartyKey);
+$assertion->setEncryptionKey($thirdPartyKey);
 $assertion->setEncryptedAttributes(true);
 $assertion->setCertificates([$certString]);
+$assertion->setSignatureKey($privateKey);
 
 $response = new \SAML2\Response();
 $response->setDestination($spString);
