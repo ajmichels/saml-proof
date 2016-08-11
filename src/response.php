@@ -57,4 +57,10 @@ $response->setDestination($spString);
 $response->setIssuer($idpString);
 $response->setAssertions([$assertion]);
 
-echo $response->toSignedXML()->ownerDocument->saveXML();
+$out = $response->toSignedXML()->ownerDocument->saveXML();
+
+if (!array_search('-xml', $argv)) {
+    $out = base64_encode($out);
+}
+
+print($out);
