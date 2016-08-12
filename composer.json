@@ -1,7 +1,7 @@
 {
     "name": "amichels/xsaml",
     "require": {
-        "simplesamlphp/saml2": "^2.2"
+        "simplesamlphp/saml2": "dev-master#5f68f863e40ed935b1227bfe65958bc2a76922f4"
     },
     "authors": [
         {
