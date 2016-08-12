@@ -6,15 +6,18 @@ require __DIR__ . '/../vendor/autoload.php';
 $logger = new \xsaml\Logger('xsaml', __DIR__ . '/../logs/xsaml.log');
 $stdin = file_get_contents('php://stdin');
 $_POST['SAMLResponse'] = $stdin;
-
-// print(base64_decode($stdin) . "\n\n\n");
+$privateKey = new \SAML2\Configuration\PrivateKey(__DIR__ . '/../certs/example-tp.org.pem', \SAML2\Configuration\PrivateKey::NAME_DEFAULT);
 
 $spString = 'https://hmki_sso_nonprod.hallmarkinsights.com';
 $spConfig = new \SAML2\COnfiguration\ServiceProvider([
-    'CertificateFile' => __DIR__ . '/../certs/example-tp.org.crt',
+    'entityId' => 'https://hmki_sso_nonprod.hallmarkinsights.com',
+    'certificateFile' => __DIR__ . '/../certs/example-tp.org.crt',
+    'privateKeys' => [$privateKey],
 ]);
 $idpConfig = new \SAML2\COnfiguration\IdentityProvider([
-    'CertificateFile' => __DIR__ . '/../certs/example.org.crt',
+    'entityId' => 'https://auth.staging.caringbridge.org',
+    'certificateFile' => __DIR__ . '/../certs/example.org.crt',
+    'privateKeys' => [],
 ]);
 $destination = new \SAML2\Configuration\Destination($spString);
 
