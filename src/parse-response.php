@@ -3,6 +3,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$logger = new \xsaml\Logger('xsaml', __DIR__ . '/../logs/xsaml.log');
 $stdin = file_get_contents('php://stdin');
 $_POST['SAMLResponse'] = $stdin;
 
@@ -21,7 +22,7 @@ $destination = new \SAML2\Configuration\Destination($spString);
 
 $httpPost = new \SAML2\HTTPPost();
 $response = $httpPost->receive();
-$processor = new \SAML2\Response\Processor(new \Psr\Log\NullLogger());
+$processor = new \SAML2\Response\Processor($logger);
 $assertion = $processor->process($spConfig, $idpConfig, $destination, $response);
 
 print($assertion->toXml());
