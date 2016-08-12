@@ -13,6 +13,7 @@ $spConfig = new \SAML2\COnfiguration\ServiceProvider([
     'entityId' => 'https://hmki_sso_nonprod.hallmarkinsights.com',
     'certificateFile' => __DIR__ . '/../certs/example-tp.org.crt',
     'privateKeys' => [$privateKey],
+    'blacklistedEncryptionAlgorithms' => [],
 ]);
 $idpConfig = new \SAML2\COnfiguration\IdentityProvider([
     'entityId' => 'https://auth.staging.caringbridge.org',
@@ -26,6 +27,6 @@ $destination = new \SAML2\Configuration\Destination($spString);
 $httpPost = new \SAML2\HTTPPost();
 $response = $httpPost->receive();
 $processor = new \SAML2\Response\Processor($logger);
-$assertion = $processor->process($spConfig, $idpConfig, $destination, $response);
+$assertions = $processor->process($spConfig, $idpConfig, $destination, $response);
 
-print($assertion->toXml());
+print($response->toUnsignedXML()->ownerDocument->saveXML());
