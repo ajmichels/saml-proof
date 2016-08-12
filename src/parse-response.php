@@ -7,6 +7,10 @@ $logger = new \xsaml\Logger('xsaml', __DIR__ . '/../logs/xsaml.log');
 $stdin = file_get_contents('php://stdin');
 $_POST['SAMLResponse'] = $stdin;
 $privateKey = new \SAML2\Configuration\PrivateKey(__DIR__ . '/../certs/example-tp.org.pem', \SAML2\Configuration\PrivateKey::NAME_DEFAULT);
+$privateKey2 = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs\XMLSecurityKey::RSA_1_5, [
+    'type' => 'private',
+]);
+$privateKey2->loadKey(__DIR__ . '/../certs/example-tp.org.pem', true);
 
 $spString = 'https://hmki_sso_nonprod.hallmarkinsights.com';
 $spConfig = new \SAML2\COnfiguration\ServiceProvider([
@@ -28,6 +32,7 @@ $httpPost = new \SAML2\HTTPPost();
 $response = $httpPost->receive();
 $processor = new \SAML2\Response\Processor($logger);
 $assertions = $processor->process($spConfig, $idpConfig, $destination, $response);
+$assertions->first()->decryptAttributes($privateKey2);
 
 $out = $response->toUnsignedXML()->ownerDocument->saveXML();
 

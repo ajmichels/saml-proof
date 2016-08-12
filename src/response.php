@@ -61,7 +61,6 @@ if (!array_search('-unsigned', $argv)) {
     $assertion->setSignatureKey($privateKey);
 }
 
-
 $response = new \SAML2\Response();
 $response->setId($uniqueId2);
 $response->setDestination($spString);
