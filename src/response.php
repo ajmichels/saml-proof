@@ -18,6 +18,8 @@ $privateKey = new \RobRichards\XMLSecLibs\XMLSecurityKey(\RobRichards\XMLSecLibs
 ]);
 $privateKey->loadKey(__DIR__ . '/../certs/example.org.pem', true);
 $certString = file_get_contents(__DIR__ . '/../certs/example.org.crt');
+$uniqueId = sha1(uniqid());
+$uniqueId2 = sha1(uniqid());
 
 \SAML2\Compat\ContainerSingleton::setContainer(new \SAML2\Compat\MockContainer());
 
@@ -28,6 +30,7 @@ $subject->SubjectConfirmationData->Recipient = $spString;
 $subject->SubjectConfirmationData->NotOnOrAfter = $notAfter;
 
 $assertion = new \SAML2\Assertion();
+$assertion->setId($uniqueId);
 $assertion->setIssuer($idpString);
 $assertion->setValidAudiences([$spString]);
 $assertion->setNotBefore($notBefore);
@@ -53,6 +56,7 @@ $assertion->setCertificates([$certString]);
 $assertion->setSignatureKey($privateKey);
 
 $response = new \SAML2\Response();
+$response->setId($uniqueId2);
 $response->setDestination($spString);
 $response->setIssuer($idpString);
 $response->setAssertions([$assertion]);
