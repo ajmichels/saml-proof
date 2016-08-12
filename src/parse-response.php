@@ -29,4 +29,10 @@ $response = $httpPost->receive();
 $processor = new \SAML2\Response\Processor($logger);
 $assertions = $processor->process($spConfig, $idpConfig, $destination, $response);
 
-print($response->toUnsignedXML()->ownerDocument->saveXML());
+$out = $response->toUnsignedXML()->ownerDocument->saveXML();
+
+if (!array_search('-xml', $argv)) {
+    $out = base64_encode($out);
+}
+
+print($out);

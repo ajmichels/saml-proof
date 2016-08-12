@@ -49,11 +49,18 @@ $assertion->setNameId([
 $assertion->setSubjectConfirmation([$subject]);
 
 // Handle Encryption and Signing
-$assertion->encryptNameId($thirdPartyKey);
-$assertion->setEncryptionKey($thirdPartyKey);
-$assertion->setEncryptedAttributes(true);
 $assertion->setCertificates([$certString]);
-$assertion->setSignatureKey($privateKey);
+
+if (!array_search('-unencrypted', $argv)) {
+    $assertion->encryptNameId($thirdPartyKey);
+    $assertion->setEncryptionKey($thirdPartyKey);
+    $assertion->setEncryptedAttributes(true);
+}
+
+if (!array_search('-unsigned', $argv)) {
+    $assertion->setSignatureKey($privateKey);
+}
+
 
 $response = new \SAML2\Response();
 $response->setId($uniqueId2);
